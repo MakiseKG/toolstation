@@ -25,6 +25,14 @@ export default function Header() {
             ToolStation
           </span>
         </Link>
+        <nav className="hidden items-center gap-1 sm:flex">
+          <Link
+            href={isEnglish ? "/en/cheatsheets" : "/cheatsheets"}
+            className="rounded-lg px-3 py-1.5 text-sm font-medium text-zinc-500 transition hover:text-zinc-200"
+          >
+            {isEnglish ? "Cheat Sheets" : "速查表"}
+          </Link>
+        </nav>
         <div className="flex-1" />
         <Link
           href={switchUrl}
