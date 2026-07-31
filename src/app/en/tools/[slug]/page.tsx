@@ -24,6 +24,7 @@ import ImageToBase64 from "@/components/tools/ImageToBase64";
 import JwtDecoder from "@/components/tools/JwtDecoder";
 import PasswordGenerator from "@/components/tools/PasswordGenerator";
 import WorkflowSuggestionsEN from "@/components/WorkflowSuggestionsEN";
+import { LocaleProvider } from "@/components/LocaleProvider";
 
 const componentMap: Record<string, React.ComponentType> = {
   "json-formatter": JsonFormatter,
@@ -178,7 +179,7 @@ export default async function ToolPageEN({
 
             {/* Tool card */}
             <div className="rounded-2xl border border-zinc-800/60 bg-zinc-900/40 p-6 backdrop-blur-sm sm:p-8">
-              {ToolComponent ? <ToolComponent /> : <p className="text-zinc-500">Tool coming soon...</p>}
+              {ToolComponent ? <LocaleProvider locale="en"><ToolComponent /></LocaleProvider> : <p className="text-zinc-500">Tool coming soon...</p>}
             </div>
 
             <WorkflowSuggestionsEN currentSlug={slug} />

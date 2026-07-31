@@ -1,13 +1,17 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { useLocaleContext } from "@/components/LocaleProvider";
 
 export type Locale = "zh" | "en";
 
 export function useLocale(): Locale {
+  const ctxLocale = useLocaleContext();
+  if (ctxLocale !== "zh") return ctxLocale;
+  // If default value "zh" returned, try pathname detection for runtime
   const pathname = usePathname();
-  if (typeof window === "undefined") return "zh";
-  return pathname.startsWith("/en") ? "en" : "zh";
+  if (pathname.startsWith("/en")) return "en";
+  return "zh";
 }
 
 // Shared UI translations used across tool components
