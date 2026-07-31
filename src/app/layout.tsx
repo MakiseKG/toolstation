@@ -23,6 +23,13 @@ export const metadata: Metadata = {
     title: "ToolStation — 免费在线开发工具合集",
     description: "JSON格式化、Base64、文本对比、Markdown预览等20+实用开发工具",
     type: "website",
+    locale: "zh_CN",
+  },
+  alternates: {
+    languages: {
+      "zh": "https://toolstation-sooty.vercel.app",
+      "en": "https://toolstation-sooty.vercel.app/en",
+    },
   },
 };
 
