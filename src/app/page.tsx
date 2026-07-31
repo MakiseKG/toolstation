@@ -30,71 +30,86 @@ function HomeContent() {
   const categories = Array.from(filteredTools.keys());
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8">
+    <div>
       {/* Hero */}
-      <div className="mb-8 text-center">
-        <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-4xl">
-          🛠️ ToolStation
-        </h1>
-        <p className="mt-3 text-lg text-zinc-500 dark:text-zinc-400">
-          免费在线开发工具合集 · 所有数据本地处理，安全私密
-        </p>
-        <div className="mx-auto mt-4 max-w-md">
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              const url = new URL(window.location.href);
-              if (e.target.value.trim()) {
-                url.searchParams.set("s", e.target.value.trim());
-              } else {
-                url.searchParams.delete("s");
-              }
-              window.history.replaceState({}, "", url.toString());
-            }}
-            placeholder="搜索 12 个工具..."
-            className="w-full rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm outline-none transition placeholder:text-zinc-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
-          />
+      <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-indigo-600 to-violet-700 px-4 py-16 text-center sm:py-20">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-30" />
+        <div className="relative mx-auto max-w-2xl">
+          <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+            🛠️ ToolStation
+          </h1>
+          <p className="mt-4 text-lg text-blue-100">
+            {tools.length} 个免费在线开发工具 · 数据本地处理 · 安全私密
+          </p>
+          <div className="mx-auto mt-6 max-w-lg">
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg text-zinc-400">🔍</span>
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  const url = new URL(window.location.href);
+                  if (e.target.value.trim()) {
+                    url.searchParams.set("s", e.target.value.trim());
+                  } else {
+                    url.searchParams.delete("s");
+                  }
+                  window.history.replaceState({}, "", url.toString());
+                }}
+                placeholder="搜索工具..."
+                className="w-full rounded-2xl border-0 bg-white/95 py-4 pl-12 pr-4 text-base text-zinc-800 shadow-lg outline-none ring-2 ring-white/30 backdrop-blur transition placeholder:text-zinc-400 focus:ring-white/60 dark:bg-zinc-900/95 dark:text-white dark:placeholder:text-zinc-500"
+              />
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Tool Grid by Category */}
-      {categories.length === 0 ? (
-        <div className="py-20 text-center text-zinc-400">
-          <p className="text-5xl mb-4">🔍</p>
-          <p>没有找到匹配的工具，试试其他关键词？</p>
-        </div>
-      ) : (
-        categories.map((cat) => {
-          const items = filteredTools.get(cat) || [];
-          return (
-            <section key={cat} className="mb-10">
-              <h2 className="mb-4 text-lg font-semibold text-zinc-800 dark:text-zinc-200">
-                {cat}工具
-              </h2>
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {items.map((tool) => (
-                  <Link
-                    key={tool.slug}
-                    href={`/tools/${tool.slug}`}
-                    className="group rounded-xl border border-zinc-200 bg-white p-5 transition hover:border-blue-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-blue-700"
-                  >
-                    <span className="text-2xl">{tool.icon}</span>
-                    <h3 className="mt-2 font-semibold text-zinc-900 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
-                      {tool.name}
-                    </h3>
-                    <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-                      {tool.description}
-                    </p>
-                  </Link>
-                ))}
-              </div>
-            </section>
-          );
-        })
-      )}
-
+      {/* Tool Grid */}
+      <div className="mx-auto max-w-6xl px-4 py-10">
+        {categories.length === 0 ? (
+          <div className="py-20 text-center text-zinc-400">
+            <p className="mb-4 text-5xl">🔍</p>
+            <p className="text-lg">没有找到匹配的工具</p>
+            <p className="mt-1 text-sm">试试其他关键词？</p>
+          </div>
+        ) : (
+          categories.map((cat) => {
+            const items = filteredTools.get(cat) || [];
+            return (
+              <section key={cat} className="mb-12">
+                <div className="mb-5 flex items-center gap-3">
+                  <div className="h-px flex-1 bg-zinc-200 dark:bg-zinc-800" />
+                  <h2 className="text-sm font-bold uppercase tracking-wider text-zinc-400">
+                    {cat}工具
+                  </h2>
+                  <div className="h-px flex-1 bg-zinc-200 dark:bg-zinc-800" />
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  {items.map((tool) => (
+                    <Link
+                      key={tool.slug}
+                      href={`/tools/${tool.slug}`}
+                      className="group relative overflow-hidden rounded-2xl border border-zinc-100 bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-blue-800"
+                    >
+                      <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 text-xl transition group-hover:scale-110 dark:from-blue-950/40 dark:to-indigo-950/40">
+                        {tool.icon}
+                      </div>
+                      <h3 className="font-semibold text-zinc-900 transition group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
+                        {tool.name}
+                      </h3>
+                      <p className="mt-1 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+                        {tool.description}
+                      </p>
+                      <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-blue-500 transition-all duration-300 group-hover:w-full" />
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            );
+          })
+        )}
+      </div>
     </div>
   );
 }
