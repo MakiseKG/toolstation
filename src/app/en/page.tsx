@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { Suspense, useMemo, useState, useEffect, useCallback } from "react";
+import { useMemo, useState, useEffect, useCallback } from "react";
 import { toolsEn, categoryOrderEn, getToolsByCategoryEn, type ToolEn } from "@/lib/tools-en";
 import { matchIntentEn, getQuickSuggestionsEn } from "@/lib/ai-router-en";
 
@@ -68,14 +67,9 @@ function ToolCard({ tool }: { tool: ToolEn }) {
 }
 
 function HomeContent() {
-  const searchParams = useSearchParams();
-  const initialQuery = searchParams.get("s") || "";
-  const [query, setQuery] = useState(initialQuery);
+  const [query, setQuery] = useState("");
   const [aiMatch, setAiMatch] = useState<ReturnType<typeof matchIntentEn>>(null);
   const [isTyping, setIsTyping] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
 
   const filteredTools = useMemo(() => {
     if (!query.trim()) return getToolsByCategoryEn();
@@ -96,6 +90,13 @@ function HomeContent() {
 
   const categories = Array.from(filteredTools.keys());
   const suggestions = getQuickSuggestionsEn();
+
+  // Read search param from URL on mount (client-side only)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const s = params.get("s");
+    if (s) setQuery(s);
+  }, []);
 
   useEffect(() => {
     if (!query.trim()) {
@@ -125,8 +126,6 @@ function HomeContent() {
   const navigateToTool = useCallback((slug: string) => {
     window.location.href = `/en/tools/${slug}`;
   }, []);
-
-  if (!mounted) return null;
 
   return (
     <div className="min-h-screen">
@@ -338,15 +337,5 @@ function HomeContent() {
 }
 
 export default function Home() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center bg-[#030305]">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#00d4aa] border-t-transparent" />
-        </div>
-      }
-    >
-      <HomeContent />
-    </Suspense>
-  );
+  return <HomeContent />;
 }
