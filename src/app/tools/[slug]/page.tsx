@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getTool, getAllSlugs, tools } from "@/lib/tools";
-import AdSlot from "@/components/AdSlot";
 import Link from "next/link";
 import JsonFormatter from "@/components/tools/JsonFormatter";
 import Base64Tool from "@/components/tools/Base64Tool";
@@ -94,19 +93,14 @@ export default async function ToolPage({
             </div>
           </div>
 
-          <AdSlot position="top" />
-
           <div className="mt-6 rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900 sm:p-6">
             {ToolComponent ? <ToolComponent /> : <p>工具开发中...</p>}
           </div>
 
-          <AdSlot position="bottom" />
         </div>
 
         {/* Sidebar */}
         <aside className="w-full shrink-0 lg:w-64">
-          <AdSlot position="sidebar" />
-
           {/* Related tools */}
           {relatedTools.length > 0 && (
             <div className="mt-4 rounded-xl border border-zinc-200 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900">

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useMemo, useState } from "react";
 import { tools, categoryOrder, getToolsByCategory } from "@/lib/tools";
-import AdSlot from "@/components/AdSlot";
 
 function HomeContent() {
   const searchParams = useSearchParams();
@@ -60,8 +59,6 @@ function HomeContent() {
         </div>
       </div>
 
-      <AdSlot position="top" />
-
       {/* Tool Grid by Category */}
       {categories.length === 0 ? (
         <div className="py-20 text-center text-zinc-400">
@@ -98,7 +95,6 @@ function HomeContent() {
         })
       )}
 
-      <AdSlot position="bottom" />
     </div>
   );
 }

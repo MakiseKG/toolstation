@@ -34,17 +34,14 @@ export default function RootLayout({
     <html lang="zh-CN" className="h-full antialiased">
       <head>
         <meta name="google-adsense-account" content="ca-pub-6204139410729703" />
-        {/* Google AdSense */}
+        {/* Google AdSense Auto Ads */}
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6204139410729703"
           crossOrigin="anonymous"
           strategy="afterInteractive"
+          data-ad-format="auto"
         />
-        {/* 触发 AdSense 广告渲染 */}
-        <Script id="adsbygoogle-init" strategy="afterInteractive">
-          {`(adsbygoogle = window.adsbygoogle || []).push({});`}
-        </Script>
       </head>
       <body className="flex min-h-full flex-col bg-white dark:bg-zinc-950">
         <Header />
