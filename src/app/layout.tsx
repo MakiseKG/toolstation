@@ -33,10 +33,10 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" className="h-full antialiased">
       <head>
-        {/* Google AdSense — 替换 ca-pub-XXXXXXXXXXXXXXXX 为你的 publisher ID */}
+        {/* Google AdSense — 替换 ca-pub-6204139410729703 为你的 publisher ID */}
         <Script
           async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6204139410729703"
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />

@@ -37,7 +37,7 @@ export default function AdSlot({ position }: AdSlotProps) {
         ref={insRef}
         className="adsbygoogle"
         style={style}
-        data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+        data-ad-client="ca-pub-6204139410729703"
         data-ad-slot={AD_UNITS[position]}
         data-ad-format={position === "sidebar" ? "vertical" : "horizontal"}
         data-full-width-responsive="true"
