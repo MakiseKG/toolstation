@@ -52,12 +52,12 @@ export function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
-}): Metadata {
-  const { slug } = params as unknown as { slug: string };
+}): Promise<Metadata> {
+  const { slug } = await params;
   const tool = getTool(slug);
   if (!tool) return {};
   return {
