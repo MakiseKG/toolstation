@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useT } from "@/lib/i18n";
 
 function csvToJson(csv: string): unknown[] {
   const lines = csv.trim().split("\n");
@@ -46,6 +47,7 @@ function jsonToCsv(json: unknown[]): string {
 }
 
 export default function CsvJson() {
+  const t = useT();
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [mode, setMode] = useState<"csv-to-json" | "json-to-csv">("csv-to-json");
@@ -93,13 +95,13 @@ export default function CsvJson() {
       />
       <div className="flex gap-2">
         <button onClick={convert} className="tool-btn tool-btn-primary">
-          转换
+          {t("convert")}
         </button>
         <button
           onClick={() => { setInput(""); setOutput(""); }}
           className="tool-btn"
         >
-          清空
+          {t("clear")}
         </button>
       </div>
       {output && (

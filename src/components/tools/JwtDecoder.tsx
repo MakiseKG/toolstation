@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useT } from "@/lib/i18n";
 
 export default function JwtDecoder() {
+  const t = useT();
   const [token, setToken] = useState(
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
   );
@@ -30,18 +32,18 @@ export default function JwtDecoder() {
         className="tool-textarea"
         value={token}
         onChange={(e) => setToken(e.target.value)}
-        placeholder="粘贴 JWT Token..."
+        placeholder={t("jwtHint")}
         rows={4}
       />
       <div className="flex gap-2">
         <button onClick={decode} className="tool-btn tool-btn-primary">
-          解码
+          {t("decode")}
         </button>
         <button
           onClick={() => { setToken(""); setDecoded(null); }}
           className="tool-btn"
         >
-          清空
+          {t("clear")}
         </button>
       </div>
       {decoded?.error && (
@@ -52,13 +54,13 @@ export default function JwtDecoder() {
       {decoded && !decoded.error && (
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label className="mb-1 block text-xs font-semibold text-zinc-500">Header</label>
+            <label className="mb-1 block text-xs font-semibold text-zinc-500">{t("jwtHeader")}</label>
             <pre className="rounded-lg border border-zinc-200 bg-zinc-50 p-3 font-mono text-xs leading-relaxed dark:border-zinc-700 dark:bg-zinc-800">
               {decoded.header}
             </pre>
           </div>
           <div>
-            <label className="mb-1 block text-xs font-semibold text-zinc-500">Payload</label>
+            <label className="mb-1 block text-xs font-semibold text-zinc-500">{t("jwtPayload")}</label>
             <pre className="rounded-lg border border-zinc-200 bg-zinc-50 p-3 font-mono text-xs leading-relaxed dark:border-zinc-700 dark:bg-zinc-800">
               {decoded.payload}
             </pre>

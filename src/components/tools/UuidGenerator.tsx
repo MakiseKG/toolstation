@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useT } from "@/lib/i18n";
 
 function generateV4(): string {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
@@ -11,6 +12,7 @@ function generateV4(): string {
 }
 
 export default function UuidGenerator() {
+  const t = useT();
   const [uuids, setUuids] = useState<string[]>([generateV4()]);
   const [count, setCount] = useState(5);
 
@@ -26,7 +28,7 @@ export default function UuidGenerator() {
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-3">
         <label className="text-sm text-zinc-600 dark:text-zinc-400">
-          生成数量：
+          {t("uuidCount")}：
         </label>
         <input
           type="number"
@@ -37,10 +39,10 @@ export default function UuidGenerator() {
           className="w-20 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-sm outline-none focus:border-blue-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
         />
         <button onClick={generate} className="tool-btn tool-btn-primary">
-          生成 UUID
+          {t("uuidBatch")}
         </button>
         <button onClick={copyAll} className="tool-btn">
-          全部复制
+          {t("selectAll")}
         </button>
       </div>
       <div className="space-y-1 rounded-lg border border-zinc-200 bg-zinc-50 p-3 font-mono text-sm dark:border-zinc-700 dark:bg-zinc-800">
@@ -51,7 +53,7 @@ export default function UuidGenerator() {
             onClick={() => {
               navigator.clipboard.writeText(u);
             }}
-            title="点击复制"
+            title={t("copy")}
           >
             {u}
           </div>

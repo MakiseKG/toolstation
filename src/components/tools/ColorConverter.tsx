@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useT } from "@/lib/i18n";
 
 function hexToRgb(hex: string) {
   const r = parseInt(hex.slice(1, 3), 16);
@@ -45,6 +46,7 @@ function hslToRgb(h: number, s: number, l: number) {
 }
 
 export default function ColorConverter() {
+  const t = useT();
   const [input, setInput] = useState("#3b82f6");
   const [error, setError] = useState("");
 
@@ -132,7 +134,7 @@ export default function ColorConverter() {
                   className="cursor-pointer select-all text-zinc-900 dark:text-white"
                   onClick={(e) => {
                     navigator.clipboard.writeText(val);
-                    (e.target as HTMLElement).textContent = "已复制!";
+                    (e.target as HTMLElement).textContent = t("copy");
                     setTimeout(() => {
                       (e.target as HTMLElement).textContent = val;
                     }, 1000);
@@ -147,17 +149,17 @@ export default function ColorConverter() {
           {/* Palettes */}
           {palettes && (
             <div className="space-y-4 pt-2">
-              <PaletteRow title="单色渐变（Monochromatic）" colors={palettes.mono} />
-              <PaletteRow title="类比色（Analogous）" colors={palettes.analogous} />
-              <PaletteRow title="互补色（Complementary）" colors={palettes.complementary} />
-              <PaletteRow title="三角色（Triadic）" colors={palettes.triadic} />
+              <PaletteRow title={t("colorMonochromatic")} colors={palettes.mono} />
+              <PaletteRow title={t("colorAnalogous")} colors={palettes.analogous} />
+              <PaletteRow title={t("colorComplementary")} colors={palettes.complementary} />
+              <PaletteRow title={t("colorTriadic")} colors={palettes.triadic} />
             </div>
           )}
         </>
       )}
 
       {!color && input && (
-        <p className="text-sm text-red-500">无法识别的颜色格式，请输入 #HEX 或 rgb(r,g,b)</p>
+        <p className="text-sm text-red-500">{t("colorPicker")}</p>
       )}
     </div>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useT } from "@/lib/i18n";
 
 const REGEX_LIBRARY = [
   { name: "邮箱", pattern: "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$", flags: "", example: "test@example.com" },
@@ -14,6 +15,7 @@ const REGEX_LIBRARY = [
 ];
 
 export default function RegexTester() {
+  const t = useT();
   const [pattern, setPattern] = useState("[a-z]+");
   const [flags, setFlags] = useState("g");
   const [text, setText] = useState("Hello World 123");
@@ -69,14 +71,14 @@ export default function RegexTester() {
           type="text"
           value={pattern}
           onChange={(e) => setPattern(e.target.value)}
-          placeholder="正则表达式，如 [a-z]+"
+          placeholder={t("regexPattern")}
           className="flex-1 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 font-mono text-sm outline-none focus:border-blue-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
         />
         <input
           type="text"
           value={flags}
           onChange={(e) => setFlags(e.target.value)}
-          placeholder="flags"
+          placeholder={t("regexFlags")}
           className="w-20 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 font-mono text-sm text-center outline-none focus:border-blue-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
         />
       </div>
@@ -87,7 +89,7 @@ export default function RegexTester() {
           onClick={() => setShowLib(!showLib)}
           className="flex w-full items-center justify-between px-4 py-2.5 text-sm font-medium text-zinc-600 transition hover:text-blue-600 dark:text-zinc-300"
         >
-          <span>📚 常用正则库（点击快速填充）</span>
+          <span>{"📚 "}{t("regexLibrary")}</span>
           <span className="text-zinc-400">{showLib ? "▲" : "▼"}</span>
         </button>
         {showLib && (
@@ -111,7 +113,7 @@ export default function RegexTester() {
         className="tool-textarea"
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder="输入测试文本..."
+        placeholder={t("regexTestString")}
         rows={6}
       />
 
@@ -124,7 +126,7 @@ export default function RegexTester() {
       {result && !result.error && (
         <>
           <p className="text-sm text-zinc-500">
-            匹配到 {result.matches.length} 个结果
+            {t("regexMatches")}: {result.matches.length}
           </p>
           <div
             className="min-h-[100px] rounded-lg border border-zinc-200 bg-white p-3 text-sm font-mono leading-relaxed dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"

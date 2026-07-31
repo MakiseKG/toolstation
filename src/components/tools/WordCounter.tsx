@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useT } from "@/lib/i18n";
 
 export default function WordCounter() {
+  const t = useT();
   const [text, setText] = useState("");
 
   const stats = useMemo(() => {
@@ -24,17 +26,17 @@ export default function WordCounter() {
         className="tool-textarea"
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder="在此输入或粘贴文本..."
+        placeholder={t("wcPlaceholder")}
         rows={10}
       />
       {stats && (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
-            ["字符数", stats.chars],
-            ["不含空格", stats.charsNoSpace],
-            ["单词数", stats.words],
-            ["行数", stats.lines],
-            ["段落数", stats.paragraphs],
+            [t("wcChars"), stats.chars],
+            [t("wcCharsNoSpace"), stats.charsNoSpace],
+            [t("wcWords"), stats.words],
+            [t("wcLines"), stats.lines],
+            [t("wcParagraphs"), stats.paragraphs],
             ["字节数", stats.bytes],
             ["中文字数", stats.chineseChars],
           ].map(([label, value]) => (

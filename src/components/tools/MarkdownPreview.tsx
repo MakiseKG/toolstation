@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useT } from "@/lib/i18n";
 
 function renderMarkdown(md: string): string {
   let html = md
@@ -55,33 +56,34 @@ function escapeHtml(s: string): string {
 }
 
 export default function MarkdownPreview() {
-  const [input, setInput] = useState(`# Markdown 预览
+  const t = useT();
+  const [input, setInput] = useState(`# Markdown Preview
 
-欢迎使用 **Markdown** 编辑器！
+Welcome to the **Markdown** editor!
 
-## 功能列表
+## Features
 
-- **粗体** 和 *斜体*
-- \`行内代码\`
-- [链接](https://example.com)
+- **Bold** and *italic*
+- \`inline code\`
+- [Links](https://example.com)
 
-## 代码块
+## Code Block
 
 \`\`\`
 console.log("Hello, World!");
 \`\`\`
 
-> 这是一段引用文字
+> This is a blockquote
 
 ---
 
-编辑左侧内容，右侧实时预览。`);
+Edit on the left, preview on the right.`);
 
   return (
     <div className="grid gap-4 sm:grid-cols-2">
       <div>
         <label className="mb-1 block text-xs font-medium text-zinc-500">
-          编辑
+          {t("input")}
         </label>
         <textarea
           className="tool-textarea"
@@ -92,7 +94,7 @@ console.log("Hello, World!");
       </div>
       <div>
         <label className="mb-1 block text-xs font-medium text-zinc-500">
-          预览
+          {t("preview")}
         </label>
         <div
           className="markdown-body min-h-[200px] rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-900"

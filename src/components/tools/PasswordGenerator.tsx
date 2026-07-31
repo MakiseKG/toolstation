@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useT } from "@/lib/i18n";
 
 const CHARS = {
   lower: "abcdefghijklmnopqrstuvwxyz",
@@ -10,6 +11,7 @@ const CHARS = {
 };
 
 export default function PasswordGenerator() {
+  const t = useT();
   const [length, setLength] = useState(16);
   const [useLower, setUseLower] = useState(true);
   const [useUpper, setUseUpper] = useState(true);
@@ -40,10 +42,10 @@ export default function PasswordGenerator() {
     if (/[A-Z]/.test(password)) score += 1;
     if (/\d/.test(password)) score += 1;
     if (/[^a-zA-Z0-9]/.test(password)) score += 1;
-    if (score >= 6) return { label: "极强", color: "bg-green-500" };
-    if (score >= 4) return { label: "强", color: "bg-blue-500" };
-    if (score >= 2) return { label: "中等", color: "bg-amber-500" };
-    return { label: "弱", color: "bg-red-500" };
+    if (score >= 6) return { label: t("pwdVeryStrong"), color: "bg-green-500" };
+    if (score >= 4) return { label: t("pwdStrong"), color: "bg-blue-500" };
+    if (score >= 2) return { label: t("pwdMedium"), color: "bg-amber-500" };
+    return { label: t("pwdWeak"), color: "bg-red-500" };
   };
 
   const s = strength();
@@ -51,7 +53,7 @@ export default function PasswordGenerator() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-3">
-        <label className="text-sm">长度：{length}</label>
+        <label className="text-sm">{t("pwdLength")}: {length}</label>
         <input
           type="range"
           min={4}
@@ -63,10 +65,10 @@ export default function PasswordGenerator() {
       </div>
       <div className="flex flex-wrap gap-3 text-sm">
         {[
-          ["小写字母", useLower, setUseLower],
-          ["大写字母", useUpper, setUseUpper],
-          ["数字", useNumber, setUseNumber],
-          ["符号", useSymbol, setUseSymbol],
+          [t("pwdLower"), useLower, setUseLower],
+          [t("pwdUpper"), useUpper, setUseUpper],
+          [t("pwdNumbers"), useNumber, setUseNumber],
+          [t("pwdSymbols"), useSymbol, setUseSymbol],
         ].map(([label, checked, setter]) => (
           <label key={label as string} className="flex cursor-pointer items-center gap-1.5">
             <input
@@ -79,7 +81,7 @@ export default function PasswordGenerator() {
         ))}
       </div>
       <button onClick={generate} className="tool-btn tool-btn-primary w-full justify-center">
-        生成密码
+{t("generate")}
       </button>
       {password && (
         <>
@@ -95,7 +97,7 @@ export default function PasswordGenerator() {
               onClick={() => navigator.clipboard.writeText(password)}
               className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md bg-zinc-200 px-2 py-1 text-xs text-zinc-600 hover:bg-zinc-300 dark:bg-zinc-700 dark:text-zinc-300"
             >
-              复制
+{t("copy")}
             </button>
           </div>
           <div className="flex items-center gap-2">

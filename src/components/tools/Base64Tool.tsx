@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useT } from "@/lib/i18n";
 
 export default function Base64Tool() {
+  const t = useT();
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [mode, setMode] = useState<"encode" | "decode">("encode");
@@ -26,27 +28,25 @@ export default function Base64Tool() {
           onClick={() => setMode("encode")}
           className={`tool-btn ${mode === "encode" ? "tool-btn-primary" : ""}`}
         >
-          Base64 编码
+          {t("base64Encode")}
         </button>
         <button
           onClick={() => setMode("decode")}
           className={`tool-btn ${mode === "decode" ? "tool-btn-primary" : ""}`}
         >
-          Base64 解码
+          {t("base64Decode")}
         </button>
       </div>
       <textarea
         className="tool-textarea"
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        placeholder={
-          mode === "encode" ? "输入要编码的文本..." : "输入 Base64 字符串..."
-        }
+        placeholder={t("base64Hint")}
         rows={6}
       />
       <div className="flex gap-2">
         <button onClick={process} className="tool-btn tool-btn-primary">
-          转换
+          {t("convert")}
         </button>
         <button
           onClick={() => {
@@ -55,7 +55,7 @@ export default function Base64Tool() {
           }}
           className="tool-btn"
         >
-          清空
+          {t("clear")}
         </button>
       </div>
       {output && (

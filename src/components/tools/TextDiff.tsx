@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useT } from "@/lib/i18n";
 
 export default function TextDiff() {
+  const t = useT();
   const [left, setLeft] = useState("");
   const [right, setRight] = useState("");
 
@@ -35,25 +37,25 @@ export default function TextDiff() {
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
           <label className="mb-1 block text-xs font-medium text-zinc-500">
-            原始文本
+            {t("diffOriginal")}
           </label>
           <textarea
             className="tool-textarea"
             value={left}
             onChange={(e) => setLeft(e.target.value)}
-            placeholder="粘贴原始文本..."
+            placeholder={t("diffHint")}
             rows={8}
           />
         </div>
         <div>
           <label className="mb-1 block text-xs font-medium text-zinc-500">
-            新文本
+            {t("diffModified")}
           </label>
           <textarea
             className="tool-textarea"
             value={right}
             onChange={(e) => setRight(e.target.value)}
-            placeholder="粘贴新文本..."
+            placeholder={t("diffHint")}
             rows={8}
           />
         </div>

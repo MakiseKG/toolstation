@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useT } from "@/lib/i18n";
 
 export default function JsonFormatter() {
+  const t = useT();
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
@@ -31,12 +33,12 @@ export default function JsonFormatter() {
   const validate = useCallback(() => {
     try {
       JSON.parse(input);
-      setError("✅ JSON 格式有效");
+      setError("✅ " + t("jsonValid"));
       setOutput("");
     } catch (e) {
       setError("❌ " + (e as Error).message);
     }
-  }, [input]);
+  }, [input, t]);
 
   const repair = useCallback(() => {
     let text = input.trim();
@@ -58,11 +60,11 @@ export default function JsonFormatter() {
     try {
       const obj = JSON.parse(text);
       setOutput(JSON.stringify(obj, null, 2));
-      setError("✅ 已尝试修复并格式化");
+      setError("✅ " + t("repairedAndFormatted"));
     } catch (e) {
-      setError("❌ 无法自动修复: " + (e as Error).message + "\n建议：检查括号是否匹配");
+      setError("❌ " + t("cannotRepair") + ": " + (e as Error).message);
     }
-  }, [input]);
+  }, [input, t]);
 
   const generateTs = useCallback(() => {
     try {
@@ -81,24 +83,24 @@ export default function JsonFormatter() {
         className="tool-textarea"
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        placeholder='粘贴 JSON 数据，例如：{"name": "hello", "value": 123}'
+        placeholder={t("jsonFormatterHint")}
         rows={8}
       />
       <div className="flex flex-wrap gap-2">
         <button onClick={format} className="tool-btn tool-btn-primary">
-          格式化
+          {t("format")}
         </button>
         <button onClick={minify} className="tool-btn">
-          压缩
+          {t("minify")}
         </button>
         <button onClick={validate} className="tool-btn">
-          验证
+          {t("validate")}
         </button>
-        <button onClick={repair} className="tool-btn" title="自动修复常见错误：单引号、尾随逗号、无引号键、注释">
-          🔧 智能修复
+        <button onClick={repair} className="tool-btn">
+          🔧 {t("repair")}
         </button>
         <button onClick={generateTs} className="tool-btn">
-          TS 接口
+          {t("generateTs")}
         </button>
         <button
           onClick={() => {
@@ -108,7 +110,7 @@ export default function JsonFormatter() {
           }}
           className="tool-btn"
         >
-          清空
+          {t("clear")}
         </button>
       </div>
 

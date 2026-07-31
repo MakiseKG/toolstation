@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useT } from "@/lib/i18n";
 
 function formatHtml(html: string): string {
   let formatted = "";
@@ -32,6 +33,7 @@ function minifyHtml(html: string): string {
 }
 
 export default function HtmlFormatter() {
+  const t = useT();
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
 
@@ -41,7 +43,7 @@ export default function HtmlFormatter() {
         className="tool-textarea"
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        placeholder="粘贴 HTML 代码..."
+        placeholder={t("input") + " HTML..."}
         rows={10}
       />
       <div className="flex gap-2">
@@ -49,19 +51,19 @@ export default function HtmlFormatter() {
           onClick={() => setOutput(formatHtml(input))}
           className="tool-btn tool-btn-primary"
         >
-          格式化
+          {t("format")}
         </button>
         <button
           onClick={() => setOutput(minifyHtml(input))}
           className="tool-btn"
         >
-          压缩
+          {t("minify")}
         </button>
         <button
           onClick={() => { setInput(""); setOutput(""); }}
           className="tool-btn"
         >
-          清空
+          {t("clear")}
         </button>
       </div>
       {output && (

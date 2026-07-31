@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useT } from "@/lib/i18n";
 
 export default function UrlEncoder() {
+  const t = useT();
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [mode, setMode] = useState<"encode" | "decode">("encode");
@@ -26,29 +28,25 @@ export default function UrlEncoder() {
           onClick={() => setMode("encode")}
           className={`tool-btn ${mode === "encode" ? "tool-btn-primary" : ""}`}
         >
-          URL 编码
+          {t("urlEncode")}
         </button>
         <button
           onClick={() => setMode("decode")}
           className={`tool-btn ${mode === "decode" ? "tool-btn-primary" : ""}`}
         >
-          URL 解码
+          {t("urlDecode")}
         </button>
       </div>
       <textarea
         className="tool-textarea"
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        placeholder={
-          mode === "encode"
-            ? "输入要编码的文本或 URL..."
-            : "输入 URL 编码的字符串..."
-        }
+        placeholder={t("urlHint")}
         rows={6}
       />
       <div className="flex gap-2">
         <button onClick={process} className="tool-btn tool-btn-primary">
-          转换
+          {t("convert")}
         </button>
         <button
           onClick={() => {
@@ -57,7 +55,7 @@ export default function UrlEncoder() {
           }}
           className="tool-btn"
         >
-          清空
+          {t("clear")}
         </button>
       </div>
       {output && (

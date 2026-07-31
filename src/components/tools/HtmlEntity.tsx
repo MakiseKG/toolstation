@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useT } from "@/lib/i18n";
 
 const ENTITIES: Record<string, string> = {
   "&": "&amp;",
@@ -20,6 +21,7 @@ const REV_ENTITIES: Record<string, string> = {
 };
 
 export default function HtmlEntity() {
+  const t = useT();
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [mode, setMode] = useState<"encode" | "decode">("encode");
@@ -41,13 +43,13 @@ export default function HtmlEntity() {
           onClick={() => setMode("encode")}
           className={`tool-btn ${mode === "encode" ? "tool-btn-primary" : ""}`}
         >
-          HTML 实体编码
+          {t("htmlEntityEncode")}
         </button>
         <button
           onClick={() => setMode("decode")}
           className={`tool-btn ${mode === "decode" ? "tool-btn-primary" : ""}`}
         >
-          HTML 实体解码
+          {t("htmlEntityDecode")}
         </button>
       </div>
       <textarea
@@ -56,14 +58,14 @@ export default function HtmlEntity() {
         onChange={(e) => setInput(e.target.value)}
         placeholder={
           mode === "encode"
-            ? "输入要编码的 HTML 文本..."
-            : "输入 HTML 实体字符串..."
+            ? t("input")
+            : t("input")
         }
         rows={6}
       />
       <div className="flex gap-2">
         <button onClick={process} className="tool-btn tool-btn-primary">
-          转换
+          {t("convert")}
         </button>
         <button
           onClick={() => {
@@ -72,7 +74,7 @@ export default function HtmlEntity() {
           }}
           className="tool-btn"
         >
-          清空
+          {t("clear")}
         </button>
       </div>
       {output && (

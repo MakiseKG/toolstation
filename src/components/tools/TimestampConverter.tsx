@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useT } from "@/lib/i18n";
 
 export default function TimestampConverter() {
+  const t = useT();
   const [input, setInput] = useState(String(Math.floor(Date.now() / 1000)));
   const [mode, setMode] = useState<"timestamp-to-date" | "date-to-timestamp">(
     "timestamp-to-date"
@@ -49,16 +51,16 @@ export default function TimestampConverter() {
           onClick={() => setMode("timestamp-to-date")}
           className={`tool-btn ${mode === "timestamp-to-date" ? "tool-btn-primary" : ""}`}
         >
-          时间戳 → 日期
+          {t("tsToDate")}
         </button>
         <button
           onClick={() => setMode("date-to-timestamp")}
           className={`tool-btn ${mode === "date-to-timestamp" ? "tool-btn-primary" : ""}`}
         >
-          日期 → 时间戳
+          {t("tsDateToTs")}
         </button>
         <button onClick={now} className="tool-btn">
-          当前时间
+          {t("tsNow")}
         </button>
       </div>
       <input
@@ -67,8 +69,8 @@ export default function TimestampConverter() {
         onChange={(e) => setInput(e.target.value)}
         placeholder={
           mode === "timestamp-to-date"
-            ? "输入 Unix 时间戳，如 1700000000"
-            : "输入日期，如 2024-01-01 12:00:00"
+            ? t("tsSeconds")
+            : t("tsDateToTs")
         }
         className="w-full rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2.5 font-mono text-sm outline-none focus:border-blue-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
       />
@@ -77,26 +79,26 @@ export default function TimestampConverter() {
           {"seconds" in result ? (
             <>
               <div className="flex justify-between rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-2 font-mono text-sm dark:border-zinc-700 dark:bg-zinc-800">
-                <span className="text-zinc-500">秒级时间戳</span>
+                <span className="text-zinc-500">{t("tsSeconds")}</span>
                 <span className="select-all text-zinc-900 dark:text-white">{result.seconds}</span>
               </div>
               <div className="flex justify-between rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-2 font-mono text-sm dark:border-zinc-700 dark:bg-zinc-800">
-                <span className="text-zinc-500">毫秒级时间戳</span>
+                <span className="text-zinc-500">{t("tsMilliseconds")}</span>
                 <span className="select-all text-zinc-900 dark:text-white">{result.ms}</span>
               </div>
             </>
           ) : (
             <>
               <div className="flex justify-between rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-2 font-mono text-sm dark:border-zinc-700 dark:bg-zinc-800">
-                <span className="text-zinc-500">本地时间</span>
+                <span className="text-zinc-500">{t("preview")}</span>
                 <span className="select-all text-zinc-900 dark:text-white">{result.local}</span>
               </div>
               <div className="flex justify-between rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-2 font-mono text-sm dark:border-zinc-700 dark:bg-zinc-800">
-                <span className="text-zinc-500">ISO 格式</span>
+                <span className="text-zinc-500">{t("format")}</span>
                 <span className="select-all text-zinc-900 dark:text-white">{result.iso}</span>
               </div>
               <div className="flex justify-between rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-2 font-mono text-sm dark:border-zinc-700 dark:bg-zinc-800">
-                <span className="text-zinc-500">UTC 格式</span>
+                <span className="text-zinc-500">{t("format")}</span>
                 <span className="select-all text-zinc-900 dark:text-white">{result.utc}</span>
               </div>
             </>

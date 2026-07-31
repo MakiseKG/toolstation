@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useT } from "@/lib/i18n";
 
 function minifyJs(js: string): string {
   return js
@@ -14,6 +15,7 @@ function minifyJs(js: string): string {
 }
 
 export default function JsMinifier() {
+  const t = useT();
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [before, setBefore] = useState(0);
@@ -33,12 +35,12 @@ export default function JsMinifier() {
         className="tool-textarea"
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        placeholder="粘贴 JavaScript 代码..."
+        placeholder={t("minifyInputJs")}
         rows={10}
       />
       <div className="flex gap-2">
         <button onClick={minify} className="tool-btn tool-btn-primary">
-          压缩
+          {t("minify")}
         </button>
         <button
           onClick={() => {
@@ -49,16 +51,16 @@ export default function JsMinifier() {
           }}
           className="tool-btn"
         >
-          清空
+          {t("clear")}
         </button>
       </div>
       {output && (
         <>
           <div className="flex gap-4 text-sm text-zinc-500">
-            <span>压缩前：{before.toLocaleString()} 字节</span>
-            <span>压缩后：{after.toLocaleString()} 字节</span>
+            <span>{t("originalSize")}：{before.toLocaleString()} {t("bytes")}</span>
+            <span>{t("minifiedSize")}：{after.toLocaleString()} {t("bytes")}</span>
             <span className="text-green-600">
-              节省 {((1 - after / before) * 100).toFixed(1)}%
+              {t("saved")} {((1 - after / before) * 100).toFixed(1)}%
             </span>
           </div>
           <textarea

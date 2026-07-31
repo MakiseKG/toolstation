@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useT } from "@/lib/i18n";
 
 export default function ImageToBase64() {
+  const t = useT();
   const [base64, setBase64] = useState("");
   const [fileName, setFileName] = useState("");
   const [size, setSize] = useState({ width: 0, height: 0, bytes: 0 });
@@ -40,10 +42,10 @@ export default function ImageToBase64() {
         <div className="text-center">
           <p className="text-3xl">📤</p>
           <p className="mt-2 text-sm font-medium text-zinc-600 dark:text-zinc-300">
-            点击上传图片或拖拽到此处
+            {t("imgDrop")}
           </p>
           <p className="mt-1 text-xs text-zinc-400">
-            支持 PNG、JPG、GIF、WebP、SVG
+            {t("upload")}
           </p>
         </div>
       </label>
