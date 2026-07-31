@@ -3,8 +3,78 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useMemo, useState, useEffect, useCallback } from "react";
-import { tools, categoryOrder, getToolsByCategory } from "@/lib/tools";
+import { tools, categoryOrder, getToolsByCategory, type Tool } from "@/lib/tools";
 import { matchIntent, getQuickSuggestions } from "@/lib/ai-router";
+
+function HeroBackground() {
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      {/* Base gradient */}
+      <div className="absolute inset-0 bg-[#030305]" />
+
+      {/* Orb 1 - teal */}
+      <div
+        className="absolute -top-[20%] -left-[10%] h-[600px] w-[600px] rounded-full bg-[#00d4aa] opacity-[0.07] blur-[120px] animate-gradient"
+        style={{ animationDelay: "0s" }}
+      />
+
+      {/* Orb 2 - purple */}
+      <div
+        className="absolute top-[10%] -right-[10%] h-[500px] w-[500px] rounded-full bg-[#8b5cf6] opacity-[0.06] blur-[100px] animate-gradient"
+        style={{ animationDelay: "4s" }}
+      />
+
+      {/* Orb 3 - blue */}
+      <div
+        className="absolute -bottom-[10%] left-[20%] h-[400px] w-[400px] rounded-full bg-[#3b82f6] opacity-[0.05] blur-[100px] animate-gradient"
+        style={{ animationDelay: "8s" }}
+      />
+
+      {/* Grid pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+          backgroundSize: '60px 60px'
+        }}
+      />
+    </div>
+  );
+}
+
+function StatBadge({ value, label }: { value: string; label: string }) {
+  return (
+    <div className="flex flex-col items-center">
+      <span className="text-2xl font-bold text-white sm:text-3xl">{value}</span>
+      <span className="mt-1 text-xs text-zinc-500">{label}</span>
+    </div>
+  );
+}
+
+function ToolCard({ tool }: { tool: Tool }) {
+  return (
+    <Link
+      href={`/tools/${tool.slug}`}
+      className="group relative flex flex-col rounded-2xl border border-zinc-800/60 bg-zinc-900/40 p-5 backdrop-blur-sm transition-all duration-300 hover:border-[#00d4aa]/30 hover:bg-zinc-800/60"
+    >
+      <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-800 text-lg text-zinc-400 transition duration-300 group-hover:scale-110 group-hover:bg-[#00d4aa]/10 group-hover:text-[#00d4aa]">
+        {tool.icon}
+      </div>
+      <h3 className="font-semibold text-zinc-200 transition group-hover:text-white">
+        {tool.name}
+      </h3>
+      <p className="mt-1.5 text-sm leading-relaxed text-zinc-500">
+        {tool.description}
+      </p>
+      <div className="mt-4 flex items-center gap-1 text-xs font-medium text-[#00d4aa] opacity-0 transition-opacity group-hover:opacity-100">
+        打开工具
+        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </div>
+    </Link>
+  );
+}
 
 function HomeContent() {
   const searchParams = useSearchParams();
@@ -12,6 +82,9 @@ function HomeContent() {
   const [query, setQuery] = useState(initialQuery);
   const [aiMatch, setAiMatch] = useState<ReturnType<typeof matchIntent>>(null);
   const [isTyping, setIsTyping] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
 
   const filteredTools = useMemo(() => {
     if (!query.trim()) return getToolsByCategory();
@@ -22,7 +95,7 @@ function HomeContent() {
         t.description.toLowerCase().includes(q) ||
         t.keywords.some((k) => k.includes(q))
     );
-    const map = new Map<string, typeof tools>();
+    const map = new Map<string, Tool[]>();
     for (const cat of categoryOrder) {
       const items = filtered.filter((t) => t.category === cat);
       if (items.length > 0) map.set(cat, items);
@@ -33,7 +106,6 @@ function HomeContent() {
   const categories = Array.from(filteredTools.keys());
   const suggestions = getQuickSuggestions();
 
-  // AI intent detection
   useEffect(() => {
     if (!query.trim()) {
       setAiMatch(null);
@@ -63,97 +135,120 @@ function HomeContent() {
     window.location.href = `/tools/${slug}`;
   }, []);
 
+  if (!mounted) return null;
+
   return (
-    <div>
-      {/* Hero - AI Assistant Style */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-indigo-600 to-violet-700 px-4 py-16 text-center sm:py-24">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-30" />
+    <div className="min-h-screen">
+      {/* Hero */}
+      <section className="relative flex min-h-[90vh] flex-col items-center justify-center px-4">
+        <HeroBackground />
 
-        {/* Floating particles */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-10 left-[10%] h-2 w-2 rounded-full bg-white/20 animate-pulse" />
-          <div className="absolute top-20 right-[15%] h-3 w-3 rounded-full bg-white/10 animate-pulse" style={{ animationDelay: "1s" }} />
-          <div className="absolute bottom-16 left-[20%] h-2 w-2 rounded-full bg-white/15 animate-pulse" style={{ animationDelay: "2s" }} />
-        </div>
-
-        <div className="relative mx-auto max-w-2xl">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-sm text-blue-100 backdrop-blur-sm">
+        <div className="relative z-10 mx-auto w-full max-w-3xl text-center">
+          {/* Badge */}
+          <div
+            className="mb-8 inline-flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900/80 px-4 py-1.5 text-sm text-zinc-400 backdrop-blur-sm"
+            style={{ opacity: 0, animation: "fadeInUp 0.6s ease-out 0.2s forwards" }}
+          >
             <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-green-400" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#00d4aa] opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#00d4aa]" />
             </span>
-            🤖 AI 智能助手已就绪 — 描述你的需求，我帮你找到工具
+            20+ 免费工具 · 数据本地处理 · 安全私密
           </div>
 
-          <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-6xl">
-            你需要做什么？
+          {/* Title */}
+          <h1
+            className="text-5xl font-bold tracking-tight text-white sm:text-7xl"
+            style={{ opacity: 0, animation: "fadeInUp 0.6s ease-out 0.4s forwards" }}
+          >
+            开发者
+            <br />
+            <span className="bg-gradient-to-r from-[#00d4aa] via-[#3b82f6] to-[#8b5cf6] bg-clip-text text-transparent">
+              工具箱
+            </span>
           </h1>
-          <p className="mt-4 text-lg text-blue-100">
-            {tools.length} 个免费在线工具 · 自然语言搜索 · 数据本地处理
+
+          <p
+            className="mx-auto mt-6 max-w-lg text-lg text-zinc-500"
+            style={{ opacity: 0, animation: "fadeInUp 0.6s ease-out 0.6s forwards" }}
+          >
+            不用下载软件，不用注册账号。打开网页，输入需求，即刻解决。
           </p>
 
-          {/* AI Input */}
-          <div className="mx-auto mt-8 max-w-xl">
+          {/* Search */}
+          <div
+            className="mx-auto mt-10 max-w-xl"
+            style={{ opacity: 0, animation: "fadeInUp 0.6s ease-out 0.8s forwards" }}
+          >
             <div className="relative">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-xl">
-                {isTyping ? (
-                  <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-white/40 border-t-white" />
-                ) : aiMatch ? (
-                  "🤖"
-                ) : (
-                  "🔍"
+              <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-[#00d4aa]/20 via-[#3b82f6]/20 to-[#8b5cf6]/20 opacity-0 transition-opacity duration-300 focus-within:opacity-100" />
+              <div className="relative flex items-center rounded-2xl border border-zinc-800 bg-zinc-900/90 backdrop-blur-xl">
+                <div className="pl-5 text-zinc-500">
+                  {isTyping ? (
+                    <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-zinc-600 border-t-[#00d4aa]" />
+                  ) : aiMatch ? (
+                    <svg className="h-5 w-5 text-[#00d4aa]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  ) : (
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  )}
+                </div>
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => handleQueryChange(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && aiMatch) {
+                      navigateToTool(aiMatch.tool.slug);
+                    }
+                  }}
+                  placeholder="想做什么？比如：格式化 JSON、生成密码、测试正则..."
+                  className="flex-1 bg-transparent py-5 pl-4 pr-4 text-base text-zinc-200 outline-none placeholder:text-zinc-600"
+                  autoFocus
+                />
+                {query && (
+                  <button
+                    onClick={() => handleQueryChange("")}
+                    className="mr-3 rounded-full p-1.5 text-zinc-600 transition hover:bg-zinc-800 hover:text-zinc-400"
+                  >
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
                 )}
               </div>
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => handleQueryChange(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && aiMatch) {
-                    navigateToTool(aiMatch.tool.slug);
-                  }
-                }}
-                placeholder="试试说：格式化这段 JSON / 生成一个 16 位密码 / 把 CSV 转成 JSON..."
-                className="w-full rounded-2xl border-0 bg-white/95 py-5 pl-12 pr-4 text-base text-zinc-800 shadow-xl outline-none ring-2 ring-white/30 backdrop-blur transition placeholder:text-zinc-400 focus:ring-white/60 dark:bg-zinc-900/95 dark:text-white dark:placeholder:text-zinc-500"
-                autoFocus
-              />
-              {query && (
-                <button
-                  onClick={() => handleQueryChange("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 dark:hover:bg-zinc-800"
-                >
-                  ✕
-                </button>
-              )}
             </div>
 
-            {/* AI Match Result */}
+            {/* AI Match */}
             {aiMatch && (
               <button
                 onClick={() => navigateToTool(aiMatch.tool.slug)}
-                className="mt-3 flex w-full items-center gap-3 rounded-xl bg-white/95 px-4 py-3 text-left shadow-lg transition hover:bg-white hover:shadow-xl dark:bg-zinc-900/95 dark:hover:bg-zinc-900"
+                className="mt-3 flex w-full items-center gap-4 rounded-xl border border-zinc-800 bg-zinc-900/80 px-5 py-4 text-left backdrop-blur-sm transition hover:border-[#00d4aa]/30 hover:bg-zinc-800/80"
               >
-                <span className="text-2xl">{aiMatch.tool.icon}</span>
-                <div className="flex-1">
-                  <p className="font-semibold text-zinc-900 dark:text-white">
-                    {aiMatch.action ? `${aiMatch.tool.name} — ${aiMatch.action === "format" ? "格式化" : aiMatch.action === "minify" ? "压缩" : ""}` : aiMatch.tool.name}
-                  </p>
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-zinc-800 text-lg">
+                  {aiMatch.tool.icon}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="font-semibold text-zinc-200">{aiMatch.tool.name}</p>
                   <p className="text-sm text-zinc-500">{aiMatch.tool.description}</p>
                 </div>
-                <span className="rounded-lg bg-blue-100 px-3 py-1 text-sm font-medium text-blue-700 dark:bg-blue-900 dark:text-blue-300">
+                <span className="shrink-0 rounded-lg bg-[#00d4aa]/10 px-3 py-1 text-sm font-medium text-[#00d4aa]">
                   回车打开
                 </span>
               </button>
             )}
 
-            {/* Quick Suggestions */}
+            {/* Quick suggestions */}
             {!query && (
-              <div className="mt-4 flex flex-wrap justify-center gap-2">
+              <div className="mt-5 flex flex-wrap justify-center gap-2">
                 {suggestions.map((s) => (
                   <button
                     key={s.slug}
                     onClick={() => navigateToTool(s.slug)}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-4 py-2 text-sm text-white backdrop-blur-sm transition hover:bg-white/25"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-zinc-800 bg-zinc-900/60 px-4 py-2 text-sm text-zinc-500 backdrop-blur-sm transition hover:border-zinc-700 hover:text-zinc-300"
                   >
                     <span>{s.icon}</span>
                     {s.text}
@@ -162,54 +257,91 @@ function HomeContent() {
               </div>
             )}
           </div>
-        </div>
-      </div>
 
-      {/* Tool Grid */}
-      <div className="mx-auto max-w-6xl px-4 py-10">
-        {categories.length === 0 ? (
-          <div className="py-20 text-center text-zinc-400">
-            <p className="mb-4 text-5xl">🔍</p>
-            <p className="text-lg">没有找到匹配的工具</p>
-            <p className="mt-1 text-sm">换个说法试试？比如"格式化 JSON"或"生成密码"</p>
+          {/* Stats */}
+          <div
+            className="mx-auto mt-16 flex max-w-md justify-around"
+            style={{ opacity: 0, animation: "fadeInUp 0.6s ease-out 1s forwards" }}
+          >
+            <StatBadge value="20+" label="免费工具" />
+            <div className="w-px bg-zinc-800" />
+            <StatBadge value="0ms" label="无需加载" />
+            <div className="w-px bg-zinc-800" />
+            <StatBadge value="100%" label="本地处理" />
           </div>
-        ) : (
-          categories.map((cat) => {
-            const items = filteredTools.get(cat) || [];
-            return (
-              <section key={cat} className="mb-12">
-                <div className="mb-5 flex items-center gap-3">
-                  <div className="h-px flex-1 bg-zinc-200 dark:bg-zinc-800" />
-                  <h2 className="text-sm font-bold uppercase tracking-wider text-zinc-400">
-                    {cat}工具
-                  </h2>
-                  <div className="h-px flex-1 bg-zinc-200 dark:bg-zinc-800" />
+        </div>
+
+        {/* Scroll indicator */}
+        <div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          style={{ opacity: 0, animation: "fadeInUp 0.6s ease-out 1.2s forwards" }}
+        >
+          <div className="flex flex-col items-center gap-2 text-zinc-600">
+            <span className="text-xs">浏览全部工具</span>
+            <svg className="h-5 w-5 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      {/* Tools Grid */}
+      <section className="relative px-4 pb-24">
+        <div className="mx-auto max-w-6xl">
+          {categories.length === 0 ? (
+            <div className="py-32 text-center">
+              <p className="mb-4 text-5xl">🔍</p>
+              <p className="text-lg text-zinc-500">没有找到匹配的工具</p>
+              <p className="mt-2 text-sm text-zinc-600">换个说法试试？比如"格式化 JSON"或"生成密码"</p>
+            </div>
+          ) : (
+            categories.map((cat, catIndex) => {
+              const items = filteredTools.get(cat) || [];
+              return (
+                <div key={cat} className={catIndex > 0 ? "mt-20" : ""}>
+                  <div className="mb-8 flex items-center gap-4">
+                    <div className="h-px flex-1 bg-gradient-to-r from-transparent via-zinc-800 to-transparent" />
+                    <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-600">
+                      {cat}
+                    </h2>
+                    <div className="h-px flex-1 bg-gradient-to-r from-transparent via-zinc-800 to-transparent" />
+                  </div>
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    {items.map((tool) => (
+                      <ToolCard key={tool.slug} tool={tool} />
+                    ))}
+                  </div>
                 </div>
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  {items.map((tool) => (
-                    <Link
-                      key={tool.slug}
-                      href={`/tools/${tool.slug}`}
-                      className="group relative overflow-hidden rounded-2xl border border-zinc-100 bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-blue-200 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-blue-800"
-                    >
-                      <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 text-xl transition group-hover:scale-110 dark:from-blue-950/40 dark:to-indigo-950/40">
-                        {tool.icon}
-                      </div>
-                      <h3 className="font-semibold text-zinc-900 transition group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
-                        {tool.name}
-                      </h3>
-                      <p className="mt-1 text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
-                        {tool.description}
-                      </p>
-                      <div className="absolute bottom-0 left-0 h-0.5 w-0 bg-blue-500 transition-all duration-300 group-hover:w-full" />
-                    </Link>
-                  ))}
-                </div>
-              </section>
-            );
-          })
-        )}
-      </div>
+              );
+            })
+          )}
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-zinc-900 px-4 py-12">
+        <div className="mx-auto max-w-6xl text-center">
+          <p className="text-sm text-zinc-600">
+            ToolStation · 免费在线开发者工具
+          </p>
+          <p className="mt-2 text-xs text-zinc-700">
+            所有数据在浏览器本地处理，不会上传至服务器
+          </p>
+        </div>
+      </footer>
+
+      <style jsx global>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </div>
   );
 }
@@ -218,8 +350,8 @@ export default function Home() {
   return (
     <Suspense
       fallback={
-        <div className="flex items-center justify-center py-20">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-500 border-t-transparent" />
+        <div className="flex min-h-screen items-center justify-center bg-[#030305]">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#00d4aa] border-t-transparent" />
         </div>
       }
     >

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: {
@@ -22,7 +21,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
   openGraph: {
     title: "ToolStation — 免费在线开发工具合集",
-    description: "JSON格式化、Base64、文本对比、Markdown预览等10+实用开发工具",
+    description: "JSON格式化、Base64、文本对比、Markdown预览等20+实用开发工具",
     type: "website",
   },
 };
@@ -34,7 +33,6 @@ export default function RootLayout({
     <html lang="zh-CN" className="h-full antialiased">
       <head>
         <meta name="google-adsense-account" content="ca-pub-6204139410729703" />
-        {/* Google AdSense Auto Ads */}
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6204139410729703"
@@ -43,10 +41,9 @@ export default function RootLayout({
           data-ad-format="auto"
         />
       </head>
-      <body className="flex min-h-full flex-col bg-white dark:bg-zinc-950">
+      <body className="flex min-h-full flex-col bg-[#030305]">
         <Header />
         <main className="flex-1">{children}</main>
-        <Footer />
       </body>
     </html>
   );

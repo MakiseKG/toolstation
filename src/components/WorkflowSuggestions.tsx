@@ -4,7 +4,7 @@ import { getTool } from "@/lib/tools";
 const workflowMap: Record<string, string[]> = {
   "json-formatter": ["csv-json", "jwt-decoder"],
   "csv-json": ["json-formatter", "html-formatter"],
-  "base64": ["url-encoder", "image-to-base64"],
+  base64: ["url-encoder", "image-to-base64"],
   "url-encoder": ["base64", "html-entity"],
   "text-diff": ["word-counter", "regex-tester"],
   "markdown-preview": ["html-formatter", "word-counter"],
@@ -16,7 +16,7 @@ const workflowMap: Record<string, string[]> = {
   "lorem-ipsum": ["word-counter", "markdown-preview"],
   "color-converter": ["image-to-base64", "html-formatter"],
   "uuid-generator": ["timestamp", "password-generator"],
-  "timestamp": ["uuid-generator", "jwt-decoder"],
+  timestamp: ["uuid-generator", "jwt-decoder"],
   "html-entity": ["url-encoder", "html-formatter"],
   "number-base": ["base64", "uuid-generator"],
   "image-to-base64": ["base64", "color-converter"],
@@ -35,9 +35,11 @@ export default function WorkflowSuggestions({ currentSlug }: WorkflowSuggestions
   if (nextTools.length === 0) return null;
 
   return (
-    <div className="mt-8 rounded-2xl border border-zinc-100 bg-gradient-to-br from-blue-50/50 to-indigo-50/50 p-5 dark:border-zinc-800 dark:from-blue-950/20 dark:to-indigo-950/20">
-      <h3 className="mb-3 flex items-center gap-2 text-sm font-bold text-zinc-700 dark:text-zinc-300">
-        <span>⚡</span>
+    <div className="mt-8 rounded-2xl border border-zinc-800/60 bg-zinc-900/40 p-5 backdrop-blur-sm">
+      <h3 className="mb-3 flex items-center gap-2 text-sm font-bold text-zinc-400">
+        <svg className="h-4 w-4 text-[#00d4aa]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
         下一步
       </h3>
       <div className="flex flex-wrap gap-2">
@@ -45,11 +47,11 @@ export default function WorkflowSuggestions({ currentSlug }: WorkflowSuggestions
           <Link
             key={tool!.slug}
             href={`/tools/${tool!.slug}`}
-            className="inline-flex items-center gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-sm text-zinc-700 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-md dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:border-blue-700"
+            className="inline-flex items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900/60 px-4 py-2.5 text-sm text-zinc-400 transition hover:-translate-y-0.5 hover:border-[#00d4aa]/30 hover:text-zinc-200"
           >
             <span>{tool!.icon}</span>
             <span className="font-medium">{tool!.name}</span>
-            <svg className="h-4 w-4 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="h-4 w-4 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </Link>

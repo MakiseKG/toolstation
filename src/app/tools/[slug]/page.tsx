@@ -60,7 +60,7 @@ export function generateMetadata({
   const tool = getTool(slug);
   if (!tool) return {};
   return {
-    title: tool.name,
+    title: `${tool.name} | ToolStation`,
     description: tool.description,
     keywords: tool.keywords,
     openGraph: {
@@ -80,73 +80,94 @@ export default async function ToolPage({
   if (!tool) notFound();
 
   const ToolComponent = componentMap[slug];
-
-  // 相关工具（同分类）
   const relatedTools = tools.filter(
     (t) => t.category === tool.category && t.slug !== slug
   );
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6">
-      {/* Breadcrumb */}
-      <nav className="mb-5 flex items-center gap-2 text-sm text-zinc-400">
-        <Link
-          href="/"
-          className="flex items-center gap-1 transition hover:text-blue-600"
-        >
-          <span>🏠</span> 首页
-        </Link>
-        <span className="text-zinc-300">/</span>
-        <span className="font-medium text-zinc-700 dark:text-zinc-300">
-          {tool.name}
-        </span>
-      </nav>
+    <div className="min-h-screen bg-[#030305]">
+      {/* Subtle top gradient */}
+      <div className="absolute inset-x-0 top-0 h-[400px] bg-gradient-to-b from-[#00d4aa]/[0.03] to-transparent pointer-events-none" />
 
-      <div className="flex flex-col gap-8 lg:flex-row">
-        {/* Main content */}
-        <div className="min-w-0 flex-1">
-          <div className="mb-6 flex items-center gap-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 text-3xl shadow-sm dark:from-blue-950/40 dark:to-indigo-950/40">
-              {tool.icon}
+      <div className="relative mx-auto max-w-6xl px-4 py-8">
+        {/* Breadcrumb */}
+        <nav className="mb-8 flex items-center gap-2 text-sm text-zinc-600">
+          <Link
+            href="/"
+            className="flex items-center gap-1.5 transition hover:text-[#00d4aa]"
+          >
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            首页
+          </Link>
+          <svg className="h-3.5 w-3.5 text-zinc-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+          <span className="font-medium text-zinc-400">{tool.name}</span>
+        </nav>
+
+        <div className="flex flex-col gap-8 lg:flex-row">
+          {/* Main content */}
+          <div className="min-w-0 flex-1">
+            {/* Header */}
+            <div className="mb-8 flex items-start gap-5">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-zinc-900 text-3xl ring-1 ring-zinc-800">
+                {tool.icon}
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold tracking-tight text-white">
+                  {tool.name}
+                </h1>
+                <p className="mt-1.5 text-base text-zinc-500">{tool.description}</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
-                {tool.name}
-              </h1>
-              <p className="text-sm text-zinc-500">{tool.description}</p>
+
+            {/* Tool card */}
+            <div className="rounded-2xl border border-zinc-800/60 bg-zinc-900/40 p-6 backdrop-blur-sm sm:p-8">
+              {ToolComponent ? <ToolComponent /> : <p className="text-zinc-500">工具开发中...</p>}
             </div>
+
+            <WorkflowSuggestions currentSlug={slug} />
           </div>
 
-          <div className="rounded-2xl border border-zinc-100 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 sm:p-7">
-            {ToolComponent ? <ToolComponent /> : <p>工具开发中...</p>}
-          </div>
+          {/* Sidebar */}
+          <aside className="w-full shrink-0 lg:w-64">
+            {relatedTools.length > 0 && (
+              <div className="sticky top-8 rounded-2xl border border-zinc-800/60 bg-zinc-900/40 p-5 backdrop-blur-sm">
+                <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.15em] text-zinc-600">
+                  同类工具
+                </h3>
+                <ul className="space-y-1">
+                  {relatedTools.map((t) => (
+                    <li key={t.slug}>
+                      <Link
+                        href={`/tools/${t.slug}`}
+                        className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-zinc-500 transition hover:bg-zinc-800/60 hover:text-zinc-200"
+                      >
+                        <span className="text-base">{t.icon}</span>
+                        <span className="font-medium">{t.name}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-          <WorkflowSuggestions currentSlug={slug} />
+            {/* Privacy note */}
+            <div className="mt-4 rounded-2xl border border-zinc-800/60 bg-zinc-900/40 p-5">
+              <div className="flex items-center gap-2 text-sm font-medium text-zinc-400">
+                <svg className="h-4 w-4 text-[#00d4aa]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+                本地处理
+              </div>
+              <p className="mt-2 text-xs leading-relaxed text-zinc-600">
+                你的数据不会离开浏览器。无需注册，无日志记录。
+              </p>
+            </div>
+          </aside>
         </div>
-
-        {/* Sidebar */}
-        <aside className="w-full shrink-0 lg:w-60">
-          {relatedTools.length > 0 && (
-            <div className="sticky top-20 rounded-2xl border border-zinc-100 bg-zinc-50/80 p-4 backdrop-blur dark:border-zinc-800 dark:bg-zinc-900/80">
-              <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-zinc-400">
-                相关工具
-              </h3>
-              <ul className="space-y-1">
-                {relatedTools.map((t) => (
-                  <li key={t.slug}>
-                    <Link
-                      href={`/tools/${t.slug}`}
-                      className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm text-zinc-600 transition hover:bg-white hover:text-blue-600 hover:shadow-sm dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-blue-400"
-                    >
-                      <span className="text-base">{t.icon}</span>
-                      <span className="font-medium">{t.name}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </aside>
       </div>
     </div>
   );
