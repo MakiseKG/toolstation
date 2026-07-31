@@ -1,0 +1,197 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: "Cascadia Code", "Fira Code", "JetBrains Mono", Consolas, "Courier New", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Tool page shared styles */
+.tool-textarea {
+  width: 100%;
+  min-height: 200px;
+  padding: 0.75rem;
+  font-family: var(--font-mono), "Courier New", monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border: 1px solid var(--border, #e4e4e7);
+  border-radius: 0.5rem;
+  background: var(--bg-input, #fafafa);
+  color: var(--foreground);
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.tool-textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px #3b82f6;
+}
+
+.tool-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  border: 1px solid #d4d4d8;
+  background: #fff;
+  color: #27272a;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.tool-btn:hover {
+  background: #f4f4f5;
+}
+
+.tool-btn-primary {
+  background: #3b82f6;
+  color: #fff;
+  border-color: #3b82f6;
+}
+
+.tool-btn-primary:hover {
+  background: #2563eb;
+}
+
+.dark .tool-textarea {
+  --border: #3f3f46;
+  --bg-input: #18181b;
+}
+
+.dark .tool-btn {
+  background: #27272a;
+  color: #fafafa;
+  border-color: #3f3f46;
+}
+
+.dark .tool-btn:hover {
+  background: #3f3f46;
+}
+
+.dark .tool-btn-primary {
+  background: #3b82f6;
+  color: #fff;
+  border-color: #3b82f6;
+}
+
+/* Diff styles */
+.diff-added {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.diff-removed {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.dark .diff-added {
+  background: #052e16;
+  color: #86efac;
+}
+
+.dark .diff-removed {
+  background: #450a0a;
+  color: #fca5a5;
+}
+
+/* Markdown preview */
+.markdown-body {
+  line-height: 1.7;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3 {
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+}
+
+.markdown-body h1 { font-size: 1.5rem; }
+.markdown-body h2 { font-size: 1.25rem; }
+.markdown-body h3 { font-size: 1.125rem; }
+
+.markdown-body p {
+  margin-bottom: 0.75em;
+}
+
+.markdown-body pre {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: #f4f4f5;
+  overflow-x: auto;
+  font-size: 0.8125rem;
+}
+
+.dark .markdown-body pre {
+  background: #27272a;
+}
+
+.markdown-body code {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.875em;
+}
+
+.markdown-body :not(pre) > code {
+  padding: 0.125em 0.375em;
+  border-radius: 0.25rem;
+  background: #f4f4f5;
+}
+
+.dark .markdown-body :not(pre) > code {
+  background: #27272a;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 1.5em;
+  margin-bottom: 0.75em;
+}
+
+.markdown-body blockquote {
+  border-left: 3px solid #d4d4d8;
+  padding-left: 1em;
+  color: #71717a;
+  margin: 0.75em 0;
+}
+
+.markdown-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75em 0;
+}
+
+.markdown-body th,
+.markdown-body td {
+  border: 1px solid #d4d4d8;
+  padding: 0.5em 0.75em;
+  text-align: left;
+}
+
+.markdown-body img {
+  max-width: 100%;
+}

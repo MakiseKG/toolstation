@@ -1,0 +1,3 @@
+# Google AdSense
+# 部署后替换为你的 AdSense publisher ID
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0
