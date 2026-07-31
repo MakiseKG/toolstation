@@ -22,6 +22,7 @@ import NumberBase from "@/components/tools/NumberBase";
 import ImageToBase64 from "@/components/tools/ImageToBase64";
 import JwtDecoder from "@/components/tools/JwtDecoder";
 import PasswordGenerator from "@/components/tools/PasswordGenerator";
+import WorkflowSuggestions from "@/components/WorkflowSuggestions";
 
 const componentMap: Record<string, React.ComponentType> = {
   "json-formatter": JsonFormatter,
@@ -119,6 +120,8 @@ export default async function ToolPage({
           <div className="rounded-2xl border border-zinc-100 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 sm:p-7">
             {ToolComponent ? <ToolComponent /> : <p>工具开发中...</p>}
           </div>
+
+          <WorkflowSuggestions currentSlug={slug} />
         </div>
 
         {/* Sidebar */}
