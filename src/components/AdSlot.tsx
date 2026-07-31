@@ -1,24 +1,47 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+
 interface AdSlotProps {
   position: "top" | "bottom" | "sidebar";
 }
 
+// 广告位 ID — 替换为 AdSense 后台创建的广告单元 ID
+const AD_UNITS: Record<string, string> = {
+  top: "1234567890",
+  bottom: "0987654321",
+  sidebar: "1122334455",
+};
+
 export default function AdSlot({ position }: AdSlotProps) {
-  const height = position === "sidebar" ? "h-[600px]" : "h-[90px]";
-  const label =
-    position === "top"
-      ? "顶部广告位 — 728×90"
-      : position === "bottom"
-        ? "底部广告位 — 728×90"
-        : "侧边栏广告位 — 300×600";
+  const insRef = useRef<HTMLModElement>(null);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production") return;
+    try {
+      // 每个广告位单独触发渲染
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch {
+      // AdSense 被广告拦截器屏蔽时静默失败
+    }
+  }, []);
+
+  const style: React.CSSProperties =
+    position === "sidebar"
+      ? { display: "block", minHeight: "600px", width: "100%" }
+      : { display: "block", minHeight: "90px" };
 
   return (
-    <div
-      className={`${height} my-4 flex items-center justify-center rounded-lg border-2 border-dashed border-zinc-300 bg-zinc-100 text-xs text-zinc-400 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-500`}
-      data-ad-slot={position}
-    >
-      {label}
+    <div className="my-4 flex justify-center overflow-hidden rounded-lg">
+      <ins
+        ref={insRef}
+        className="adsbygoogle"
+        style={style}
+        data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+        data-ad-slot={AD_UNITS[position]}
+        data-ad-format={position === "sidebar" ? "vertical" : "horizontal"}
+        data-full-width-responsive="true"
+      />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { tools } from "@/lib/tools";
 
-const BASE_URL = "https://toolstation.vercel.app";
+const BASE_URL = "https://toolstation-sooty.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const toolPages = tools.map((tool) => ({

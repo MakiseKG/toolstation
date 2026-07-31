@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -31,6 +32,19 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="zh-CN" className="h-full antialiased">
+      <head>
+        {/* Google AdSense — 替换 ca-pub-XXXXXXXXXXXXXXXX 为你的 publisher ID */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+        {/* 触发 AdSense 广告渲染 */}
+        <Script id="adsbygoogle-init" strategy="afterInteractive">
+          {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+        </Script>
+      </head>
       <body className="flex min-h-full flex-col bg-white dark:bg-zinc-950">
         <Header />
         <main className="flex-1">{children}</main>

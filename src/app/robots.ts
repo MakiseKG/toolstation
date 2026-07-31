@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://toolstation.vercel.app/sitemap.xml",
+    sitemap: "https://toolstation-sooty.vercel.app/sitemap.xml",
   };
 }
