@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getTool, getAllSlugs, tools } from "@/lib/tools";
 import Link from "next/link";
+import Script from "next/script";
 import JsonFormatter from "@/components/tools/JsonFormatter";
 import Base64Tool from "@/components/tools/Base64Tool";
 import UrlEncoder from "@/components/tools/UrlEncoder";
@@ -60,12 +61,17 @@ export function generateMetadata({
   const tool = getTool(slug);
   if (!tool) return {};
   return {
-    title: `${tool.name} | ToolStation`,
-    description: tool.description,
+    title: tool.seoTitle,
+    description: tool.seoDescription,
     keywords: tool.keywords,
+    alternates: {
+      canonical: `https://toolstation-sooty.vercel.app/tools/${tool.slug}`,
+    },
     openGraph: {
-      title: `${tool.name} | ToolStation`,
-      description: tool.description,
+      title: tool.seoTitle,
+      description: tool.seoDescription,
+      type: "website",
+      locale: "zh_CN",
     },
   };
 }
@@ -84,14 +90,57 @@ export default async function ToolPage({
     (t) => t.category === tool.category && t.slug !== slug
   );
 
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: tool.faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.a,
+      },
+    })),
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "ToolStation",
+        item: "https://toolstation-sooty.vercel.app",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: tool.name,
+        item: `https://toolstation-sooty.vercel.app/tools/${tool.slug}`,
+      },
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-[#030305]">
-      {/* Subtle top gradient */}
+      {/* Structured data */}
+      <Script
+        id="faq-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <Script
+        id="breadcrumb-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+
       <div className="absolute inset-x-0 top-0 h-[400px] bg-gradient-to-b from-[#00d4aa]/[0.03] to-transparent pointer-events-none" />
 
       <div className="relative mx-auto max-w-6xl px-4 py-8">
         {/* Breadcrumb */}
-        <nav className="mb-8 flex items-center gap-2 text-sm text-zinc-600">
+        <nav className="mb-8 flex items-center gap-2 text-sm text-zinc-600" aria-label="面包屑导航">
           <Link
             href="/"
             className="flex items-center gap-1.5 transition hover:text-[#00d4aa]"
@@ -129,6 +178,28 @@ export default async function ToolPage({
             </div>
 
             <WorkflowSuggestions currentSlug={slug} />
+
+            {/* FAQ Section */}
+            {tool.faqs.length > 0 && (
+              <section className="mt-12">
+                <h2 className="mb-6 text-lg font-bold text-zinc-300">常见问题</h2>
+                <div className="space-y-3">
+                  {tool.faqs.map((faq, i) => (
+                    <details
+                      key={i}
+                      className="group rounded-xl border border-zinc-800/60 bg-zinc-900/40"
+                    >
+                      <summary className="cursor-pointer px-5 py-4 text-sm font-medium text-zinc-400 transition group-open:text-[#00d4aa]">
+                        {faq.q}
+                      </summary>
+                      <p className="px-5 pb-4 text-sm leading-relaxed text-zinc-500">
+                        {faq.a}
+                      </p>
+                    </details>
+                  ))}
+                </div>
+              </section>
+            )}
           </div>
 
           {/* Sidebar */}
@@ -154,7 +225,6 @@ export default async function ToolPage({
               </div>
             )}
 
-            {/* Privacy note */}
             <div className="mt-4 rounded-2xl border border-zinc-800/60 bg-zinc-900/40 p-5">
               <div className="flex items-center gap-2 text-sm font-medium text-zinc-400">
                 <svg className="h-4 w-4 text-[#00d4aa]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
