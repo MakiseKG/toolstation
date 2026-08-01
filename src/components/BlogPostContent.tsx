@@ -43,7 +43,7 @@ export default function BlogPostContent({
     <article className="space-y-8">
       {/* Title */}
       <header>
-        <div className="mb-3 flex items-center gap-2 text-xs text-zinc-500">
+        <div className="mb-3 flex items-center gap-2 text-xs text-zinc-400">
           <span className="rounded-full border border-zinc-800 px-2.5 py-1 text-zinc-400">
             {post.category}
           </span>
@@ -103,7 +103,7 @@ export default function BlogPostContent({
                 href={`${blogPrefix}/${p.slug}`}
                 className="group rounded-xl border border-zinc-800/60 bg-zinc-900/40 p-4 transition hover:border-[#00d4aa]/30 hover:bg-zinc-800/60"
               >
-                <p className="text-xs text-zinc-600">{p.category}</p>
+                <p className="text-xs text-zinc-400">{p.category}</p>
                 <p className="mt-1.5 text-sm font-medium leading-snug text-zinc-300 text-balance transition group-hover:text-white">
                   {p.title}
                 </p>

@@ -145,7 +145,7 @@ export default async function ToolPageEN({
 
       <div className="relative mx-auto max-w-6xl px-4 py-8">
         {/* Breadcrumb */}
-        <nav className="mb-8 flex items-center gap-2 text-sm text-zinc-600" aria-label="Breadcrumb">
+        <nav className="mb-8 flex items-center gap-2 text-sm text-zinc-400" aria-label="Breadcrumb">
           <Link
             href="/en"
             className="flex items-center gap-1.5 transition hover:text-[#00d4aa]"
@@ -237,7 +237,7 @@ export default async function ToolPageEN({
                 </svg>
                 Client-Side Processing
               </div>
-              <p className="mt-2 text-xs leading-relaxed text-zinc-600">
+              <p className="mt-2 text-xs leading-relaxed text-zinc-400">
                 Your data never leaves your browser. No sign-up required. No logs recorded.
               </p>
             </div>

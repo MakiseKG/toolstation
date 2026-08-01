@@ -28,13 +28,13 @@ export default function Header() {
         <nav className="hidden items-center gap-1 sm:flex">
           <Link
             href={isEnglish ? "/en/cheatsheets" : "/cheatsheets"}
-            className="rounded-lg px-3 py-1.5 text-sm font-medium text-zinc-500 transition hover:text-zinc-200"
+            className="rounded-lg px-3 py-1.5 text-sm font-medium text-zinc-400 transition hover:text-zinc-200"
           >
             {isEnglish ? "Cheat Sheets" : "速查表"}
           </Link>
           <Link
             href={isEnglish ? "/en/blog" : "/blog"}
-            className="rounded-lg px-3 py-1.5 text-sm font-medium text-zinc-500 transition hover:text-zinc-200"
+            className="rounded-lg px-3 py-1.5 text-sm font-medium text-zinc-400 transition hover:text-zinc-200"
           >
             {isEnglish ? "Blog" : "博客"}
           </Link>
@@ -42,7 +42,7 @@ export default function Header() {
         <div className="flex-1" />
         <Link
           href={switchUrl}
-          className="rounded-lg border border-zinc-800 px-3 py-1.5 text-xs font-medium text-zinc-500 transition hover:border-zinc-700 hover:text-zinc-300"
+          className="rounded-lg border border-zinc-800 px-3 py-1.5 text-xs font-medium text-zinc-400 transition hover:border-zinc-700 hover:text-zinc-300"
         >
           {switchLabel}
         </Link>

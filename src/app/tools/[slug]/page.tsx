@@ -145,7 +145,7 @@ export default async function ToolPage({
 
       <div className="relative mx-auto max-w-6xl px-4 py-8">
         {/* Breadcrumb */}
-        <nav className="mb-8 flex items-center gap-2 text-sm text-zinc-600" aria-label="面包屑导航">
+        <nav className="mb-8 flex items-center gap-2 text-sm text-zinc-400" aria-label="面包屑导航">
           <Link
             href="/"
             className="flex items-center gap-1.5 transition hover:text-[#00d4aa]"
@@ -237,7 +237,7 @@ export default async function ToolPage({
                 </svg>
                 本地处理
               </div>
-              <p className="mt-2 text-xs leading-relaxed text-zinc-600">
+              <p className="mt-2 text-xs leading-relaxed text-zinc-400">
                 你的数据不会离开浏览器。无需注册，无日志记录。
               </p>
             </div>

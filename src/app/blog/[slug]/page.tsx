@@ -75,7 +75,7 @@ export default async function BlogPostPage({
 
       <div className="relative mx-auto max-w-3xl px-4 py-12">
         {/* Breadcrumb */}
-        <nav className="mb-10 flex items-center gap-2 text-sm text-zinc-600" aria-label="Breadcrumb">
+        <nav className="mb-10 flex items-center gap-2 text-sm text-zinc-400" aria-label="Breadcrumb">
           <Link href="/" className="transition hover:text-[#00d4aa]">
             首页
           </Link>

@@ -52,7 +52,7 @@ export default function BlogIndexEN() {
                     </div>
                   )}
                   <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2 text-xs text-zinc-600">
+                    <div className="flex items-center gap-2 text-xs text-zinc-400">
                       <span>{post.category}</span>
                       <span>·</span>
                       <span>{post.readingTime} min read</span>
