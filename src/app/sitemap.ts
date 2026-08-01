@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { tools } from "@/lib/tools";
 import { toolsEn } from "@/lib/tools-en";
 import { cheatsheets } from "@/lib/cheatsheets";
+import { getAllPosts } from "@/lib/blog";
 
 const BASE_URL = "https://toolstation-sooty.vercel.app";
 
@@ -36,6 +37,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }));
 
+  const zhBlogPages = getAllPosts("zh").map((post) => ({
+    url: `${BASE_URL}/blog/${post.slug}`,
+    lastModified: new Date(post.date),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  const enBlogPages = getAllPosts("en").map((post) => ({
+    url: `${BASE_URL}/en/blog/${post.slug}`,
+    lastModified: new Date(post.date),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
   return [
     {
       url: BASE_URL,
@@ -61,9 +76,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily" as const,
       priority: 0.9,
     },
+    {
+      url: `${BASE_URL}/blog`,
+      lastModified: today,
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/en/blog`,
+      lastModified: today,
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    },
     ...zhToolPages,
     ...enToolPages,
     ...zhCheatSheetPages,
     ...enCheatSheetPages,
+    ...zhBlogPages,
+    ...enBlogPages,
   ];
 }

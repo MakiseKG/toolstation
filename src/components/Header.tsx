@@ -32,6 +32,12 @@ export default function Header() {
           >
             {isEnglish ? "Cheat Sheets" : "速查表"}
           </Link>
+          <Link
+            href={isEnglish ? "/en/blog" : "/blog"}
+            className="rounded-lg px-3 py-1.5 text-sm font-medium text-zinc-500 transition hover:text-zinc-200"
+          >
+            {isEnglish ? "Blog" : "博客"}
+          </Link>
         </nav>
         <div className="flex-1" />
         <Link
