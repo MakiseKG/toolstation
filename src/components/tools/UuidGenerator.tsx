@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useT } from "@/lib/i18n";
 
 function generateV4(): string {
@@ -13,8 +13,13 @@ function generateV4(): string {
 
 export default function UuidGenerator() {
   const t = useT();
-  const [uuids, setUuids] = useState<string[]>([generateV4()]);
+  // 初始为空：避免 SSR 与客户端水合时生成不同随机值（React #418）
+  const [uuids, setUuids] = useState<string[]>([]);
   const [count, setCount] = useState(5);
+
+  useEffect(() => {
+    setUuids([generateV4()]);
+  }, []);
 
   const generate = useCallback(() => {
     setUuids(Array.from({ length: count }, generateV4));

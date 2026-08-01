@@ -30,7 +30,7 @@ export default function BlogIndex() {
           <h1 className="text-4xl font-bold tracking-tight text-white">
             开发博客
           </h1>
-          <p className="mx-auto mt-3 max-w-xl text-base text-zinc-500">
+          <p className="mx-auto mt-3 max-w-xl text-base text-zinc-500 text-balance">
             深入浅出的编程教程与在线工具使用指南，每篇文章都配有可直接使用的免费工具。
           </p>
         </div>
@@ -57,10 +57,10 @@ export default function BlogIndex() {
                       <span>·</span>
                       <span>{post.readingTime} 分钟阅读</span>
                     </div>
-                    <h2 className="mt-1.5 text-lg font-semibold text-zinc-200 transition group-hover:text-white">
+                    <h2 className="mt-1.5 text-lg font-semibold text-zinc-200 text-balance transition group-hover:text-white">
                       {post.title}
                     </h2>
-                    <p className="mt-1.5 text-sm leading-relaxed text-zinc-500">
+                    <p className="mt-1.5 text-sm leading-relaxed text-zinc-500 text-pretty">
                       {post.description}
                     </p>
                   </div>

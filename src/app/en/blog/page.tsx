@@ -30,7 +30,7 @@ export default function BlogIndexEN() {
           <h1 className="text-4xl font-bold tracking-tight text-white">
             Developer Blog
           </h1>
-          <p className="mx-auto mt-3 max-w-xl text-base text-zinc-500">
+          <p className="mx-auto mt-3 max-w-xl text-base text-zinc-500 text-balance">
             Clear, practical programming tutorials and tool guides — every article pairs with a free online tool you can use right now.
           </p>
         </div>
@@ -57,10 +57,10 @@ export default function BlogIndexEN() {
                       <span>·</span>
                       <span>{post.readingTime} min read</span>
                     </div>
-                    <h2 className="mt-1.5 text-lg font-semibold text-zinc-200 transition group-hover:text-white">
+                    <h2 className="mt-1.5 text-lg font-semibold text-zinc-200 text-balance transition group-hover:text-white">
                       {post.title}
                     </h2>
-                    <p className="mt-1.5 text-sm leading-relaxed text-zinc-500">
+                    <p className="mt-1.5 text-sm leading-relaxed text-zinc-500 text-pretty">
                       {post.description}
                     </p>
                   </div>

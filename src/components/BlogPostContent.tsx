@@ -50,10 +50,10 @@ export default function BlogPostContent({
           <span>·</span>
           <span>{post.readingTime} min read</span>
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+        <h1 className="text-3xl font-bold tracking-tight text-white text-balance sm:text-4xl">
           {post.title}
         </h1>
-        <p className="mt-3 text-base leading-relaxed text-zinc-500">
+        <p className="mt-3 text-base leading-relaxed text-zinc-500 text-pretty">
           {post.description}
         </p>
       </header>
@@ -104,7 +104,7 @@ export default function BlogPostContent({
                 className="group rounded-xl border border-zinc-800/60 bg-zinc-900/40 p-4 transition hover:border-[#00d4aa]/30 hover:bg-zinc-800/60"
               >
                 <p className="text-xs text-zinc-600">{p.category}</p>
-                <p className="mt-1.5 text-sm font-medium leading-snug text-zinc-300 transition group-hover:text-white">
+                <p className="mt-1.5 text-sm font-medium leading-snug text-zinc-300 text-balance transition group-hover:text-white">
                   {p.title}
                 </p>
                 <p className="mt-2 text-xs text-[#00d4aa] opacity-0 transition-opacity group-hover:opacity-100">

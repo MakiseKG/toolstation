@@ -159,7 +159,7 @@ function HomeContent() {
           </h1>
 
           <p
-            className="mx-auto mt-6 max-w-lg text-lg text-zinc-500"
+            className="mx-auto mt-6 max-w-lg text-lg text-zinc-500 text-balance"
             style={{ opacity: 0, animation: "fadeInUp 0.6s ease-out 0.6s forwards" }}
           >
             No downloads. No sign-ups. Just open the page, type what you need, and get it done.
@@ -311,10 +311,10 @@ function HomeContent() {
       {/* Footer */}
       <footer className="border-t border-zinc-900 px-4 py-12">
         <div className="mx-auto max-w-6xl text-center">
-          <p className="text-sm text-zinc-600">
+          <p className="text-sm text-zinc-400">
             ToolStation · Free Online Developer Tools
           </p>
-          <p className="mt-2 text-xs text-zinc-700">
+          <p className="mt-2 text-xs text-zinc-500">
             All data processed locally in your browser — nothing is uploaded
           </p>
         </div>

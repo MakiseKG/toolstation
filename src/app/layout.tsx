@@ -37,7 +37,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="zh-CN" className="h-full antialiased">
+    <html lang="zh-CN" className="h-full antialiased dark">
       <head>
         <meta name="google-adsense-account" content="ca-pub-6204139410729703" />
         <Script

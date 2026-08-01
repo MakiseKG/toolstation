@@ -1,14 +1,19 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useT } from "@/lib/i18n";
 
 export default function TimestampConverter() {
   const t = useT();
-  const [input, setInput] = useState(String(Math.floor(Date.now() / 1000)));
+  // 初始为空：避免 SSR 与客户端水合时秒数不同（React #418）
+  const [input, setInput] = useState("");
   const [mode, setMode] = useState<"timestamp-to-date" | "date-to-timestamp">(
     "timestamp-to-date"
   );
+
+  useEffect(() => {
+    setInput(String(Math.floor(Date.now() / 1000)));
+  }, []);
 
   const result = useMemo(() => {
     if (!input.trim()) return null;

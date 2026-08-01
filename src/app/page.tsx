@@ -168,7 +168,7 @@ function HomeContent() {
           </h1>
 
           <p
-            className="mx-auto mt-6 max-w-lg text-lg text-zinc-500"
+            className="mx-auto mt-6 max-w-xl text-lg text-zinc-500 text-balance"
             style={{ opacity: 0, animation: "fadeInUp 0.6s ease-out 0.6s forwards" }}
           >
             不用下载软件，不用注册账号。打开网页，输入需求，即刻解决。
@@ -320,10 +320,10 @@ function HomeContent() {
       {/* Footer */}
       <footer className="border-t border-zinc-900 px-4 py-12">
         <div className="mx-auto max-w-6xl text-center">
-          <p className="text-sm text-zinc-600">
+          <p className="text-sm text-zinc-400">
             ToolStation · 免费在线开发者工具
           </p>
-          <p className="mt-2 text-xs text-zinc-700">
+          <p className="mt-2 text-xs text-zinc-500">
             所有数据在浏览器本地处理，不会上传至服务器
           </p>
         </div>
