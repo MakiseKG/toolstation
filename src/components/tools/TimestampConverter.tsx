@@ -95,15 +95,15 @@ export default function TimestampConverter() {
           ) : (
             <>
               <div className="flex justify-between rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-2 font-mono text-sm dark:border-zinc-700 dark:bg-zinc-800">
-                <span className="text-zinc-500">{t("preview")}</span>
+                <span className="text-zinc-500">{t("tsLocal")}</span>
                 <span className="select-all text-zinc-900 dark:text-white">{result.local}</span>
               </div>
               <div className="flex justify-between rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-2 font-mono text-sm dark:border-zinc-700 dark:bg-zinc-800">
-                <span className="text-zinc-500">{t("format")}</span>
+                <span className="text-zinc-500">{t("tsIso")}</span>
                 <span className="select-all text-zinc-900 dark:text-white">{result.iso}</span>
               </div>
               <div className="flex justify-between rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-2 font-mono text-sm dark:border-zinc-700 dark:bg-zinc-800">
-                <span className="text-zinc-500">{t("format")}</span>
+                <span className="text-zinc-500">{t("tsUtc")}</span>
                 <span className="select-all text-zinc-900 dark:text-white">{result.utc}</span>
               </div>
             </>

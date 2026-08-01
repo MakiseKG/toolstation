@@ -97,6 +97,9 @@ const dict: Record<string, Record<string, string>> = {
   tsDateToTs: { zh: "日期 → 时间戳", en: "Date → Timestamp" },
   tsSeconds: { zh: "秒", en: "Seconds" },
   tsMilliseconds: { zh: "毫秒", en: "Milliseconds" },
+  tsLocal: { zh: "本地时间", en: "Local Time" },
+  tsIso: { zh: "ISO 格式", en: "ISO Format" },
+  tsUtc: { zh: "UTC 格式", en: "UTC Format" },
 
   // HTML entity
   htmlEntityEncode: { zh: "HTML 实体编码", en: "HTML Entity Encode" },
