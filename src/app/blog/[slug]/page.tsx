@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 import { getPost, getAllPosts } from "@/lib/blog";
 import BlogPostContent from "@/components/BlogPostContent";
 
@@ -68,8 +67,7 @@ export default async function BlogPostPage({
 
   return (
     <div className="min-h-screen">
-      <Script
-        id="article-schema"
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />

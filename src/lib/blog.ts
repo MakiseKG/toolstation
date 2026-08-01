@@ -26,6 +26,15 @@ function readDir(dir: string): string[] {
   }
 }
 
+// gray-matter (js-yaml) parses `date: 2026-08-01` into a Date object.
+// Normalize to a "YYYY-MM-DD" string so metadata renders cleanly.
+function toDateString(d: unknown): string {
+  if (d instanceof Date) {
+    return d.toISOString().slice(0, 10);
+  }
+  return String(d ?? "").slice(0, 10);
+}
+
 function readPost(filePath: string): BlogPost | null {
   try {
     const raw = fs.readFileSync(filePath, "utf8");
@@ -39,7 +48,7 @@ function readPost(filePath: string): BlogPost | null {
       title: data.title,
       description: data.description ?? "",
       keywords: data.keywords ?? [],
-      date: data.date ?? "",
+      date: toDateString(data.date),
       toolSlug: data.toolSlug ?? "",
       category: data.category ?? "",
       readingTime,
