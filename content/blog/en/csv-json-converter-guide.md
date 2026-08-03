@@ -1,7 +1,7 @@
 ---
 slug: csv-json-converter-guide
 title: "CSV to JSON Converter Guide: Format Comparison & Best Practices"
-description: Learn when to use CSV vs JSON, and the four conversion pitfalls: headers, quote escaping, number types, and delimiters. Includes practical conversion tips.
+description: "Learn when to use CSV vs JSON, and the four conversion pitfalls: headers, quote escaping, number types, and delimiters. Includes practical conversion tips."
 keywords: [CSV to JSON, JSON to CSV, CSV converter, data conversion, CSV escaping]
 date: 2026-08-03
 toolSlug: csv-json

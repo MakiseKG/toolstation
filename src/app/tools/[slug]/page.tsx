@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getTool, getAllSlugs, tools } from "@/lib/tools";
 import Link from "next/link";
-import Script from "next/script";
 import JsonFormatter from "@/components/tools/JsonFormatter";
 import Base64Tool from "@/components/tools/Base64Tool";
 import UrlEncoder from "@/components/tools/UrlEncoder";
@@ -130,13 +129,11 @@ export default async function ToolPage({
   return (
     <div className="min-h-screen bg-[#030305]">
       {/* Structured data */}
-      <Script
-        id="faq-schema"
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
-      <Script
-        id="breadcrumb-schema"
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
